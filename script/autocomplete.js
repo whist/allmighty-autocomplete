@@ -81,12 +81,12 @@ app.directive('autocomplete', function() {
       $scope.preSelectOff = this.preSelectOff;
 
       // selecting a suggestion with RIGHT ARROW or ENTER
-      $scope.select = function(suggestion){
+      $scope.select = function(suggestion, index){
         if(suggestion){
           $scope.searchParam = suggestion;
           $scope.searchFilter = suggestion;
           if($scope.onSelect)
-            $scope.onSelect(suggestion);
+            $scope.onSelect(suggestion, index);
         }
         watching = false;
         $scope.completing = false;
@@ -214,7 +214,7 @@ app.directive('autocomplete', function() {
             index = scope.getIndex();
             // scope.preSelectOff();
             if(index !== -1) {
-              scope.select(angular.element(angular.element(this).find('li')[index]).text());
+              scope.select(angular.element(angular.element(this).find('li')[index]).text(), index);
               if(keycode == key.enter) {
                 e.preventDefault();
               }
@@ -256,7 +256,7 @@ app.directive('autocomplete', function() {
               index="{{ $index }}"\
               val="{{ suggestion }}"\
               ng-class="{ active: ($index === selectedIndex) }"\
-              ng-click="select(suggestion)"\
+              ng-click="select(suggestion, $index)"\
               ng-bind-html="suggestion | highlight:searchParam"></li>\
           </ul>\
         </div>'
